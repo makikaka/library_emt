@@ -36,11 +36,11 @@ public class BookController {
     ) {
         if (id != null){
             return this.bookService.save(name, genreId, authorId, availableCopies)
-                    .map(discount -> ResponseEntity.ok().body(discount))
+                    .map(book -> ResponseEntity.ok().body(book))
                     .orElseGet(() -> ResponseEntity.badRequest().build());
         } else {
             return this.bookService.edit(id, name, genreId, authorId, availableCopies)
-                    .map(discount -> ResponseEntity.ok().body(discount))
+                    .map(book -> ResponseEntity.ok().body(book))
                     .orElseGet(() -> ResponseEntity.badRequest().build());
         }
     }
