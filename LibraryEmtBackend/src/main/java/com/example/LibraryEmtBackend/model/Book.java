@@ -24,15 +24,4 @@ public class Book {
     public void takeBook(){
         available_copies--;
     }
-
-    public Book() {
-    }
-
-    public Book(Long id, String name, Genre genre, Author author, int available_copies) {
-        this.id = id;
-        this.name = name;
-        this.genre = genre;
-        this.author = author;
-        this.available_copies = available_copies;
-    }
 }

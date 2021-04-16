@@ -3,11 +3,10 @@ package com.example.LibraryEmtBackend.controller;
 import com.example.LibraryEmtBackend.model.Book;
 import com.example.LibraryEmtBackend.service.AuthorService;
 import com.example.LibraryEmtBackend.service.BookService;
+import com.mysql.cj.x.protobuf.Mysqlx;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,4 +26,28 @@ public class BookController {
     public List<Book> GetAllBooks() {
         return bookService.findAll();
     }
+
+    @PostMapping("/add")
+    public ResponseEntity<Book> save(@RequestParam(required = false) Long id,
+                                     @RequestParam String name,
+                                     @RequestParam Long genreId,
+                                     @RequestParam Long authorId,
+                                     @RequestParam int availableCopies
+    ) {
+        if (id != null){
+            return this.bookService.save(name, genreId, authorId, availableCopies)
+                    .map(discount -> ResponseEntity.ok().body(discount))
+                    .orElseGet(() -> ResponseEntity.badRequest().build());
+        } else {
+            return this.bookService.edit(id, name, genreId, authorId, availableCopies)
+                    .map(discount -> ResponseEntity.ok().body(discount))
+                    .orElseGet(() -> ResponseEntity.badRequest().build());
+        }
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public void deleteProduct(@PathVariable Long id) {
+        this.bookService.deleteById(id);
+    }
+
 }

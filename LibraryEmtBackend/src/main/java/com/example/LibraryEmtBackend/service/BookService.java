@@ -9,9 +9,18 @@ import java.util.Optional;
 public interface BookService {
     List<Book> findAll();
 
-    Optional<Book> save(Book book);
+    Optional<Book> findById(Long id);
 
-    Optional<Book> edit(Long id, Book book);
+    Optional<Book> save(String name,
+                        Long genreId,
+                        Long authorId,
+                        int availableCopies);
+
+    Optional<Book> edit(Long id,
+                        String name,
+                        Long genreId,
+                        Long authorId,
+                        int availableCopies);
 
     void deleteById(Long id);
 }

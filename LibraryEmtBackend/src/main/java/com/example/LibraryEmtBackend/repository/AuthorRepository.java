@@ -10,7 +10,4 @@ import java.util.List;
 
 @Repository
 public interface AuthorRepository extends JpaRepository<Author, Long> {
-    @EntityGraph(type = EntityGraph.EntityGraphType.FETCH)
-    @Query("select a from Author a")
-    List<Author> fetchAll();
 }

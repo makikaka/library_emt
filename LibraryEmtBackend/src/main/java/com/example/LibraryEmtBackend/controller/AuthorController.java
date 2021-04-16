@@ -27,20 +27,6 @@ public class AuthorController {
         return authorService.findAll();
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<Book> save(@RequestBody Book book) {
-        return this.bookService.save(book)
-                .map(discount -> ResponseEntity.ok().body(discount))
-                .orElseGet(() -> ResponseEntity.badRequest().build());
-    }
-
-    @PutMapping("/edit/{id}")
-    public ResponseEntity<Book> edit(@PathVariable Long id, @RequestBody Book vook) {
-        return this.bookService.edit(id, book)
-                .map(discount -> ResponseEntity.ok().body(discount))
-                .orElseGet(() -> ResponseEntity.badRequest().build());
-    }
-
     @DeleteMapping("/delete/{id}")
     public ResponseEntity deleteById(@PathVariable Long id) {
         this.bookService.deleteById(id);
