@@ -21,7 +21,7 @@ public class Book {
 
     private int available_copies;
 
-    public void takeBook(){
+    public void takeBook() {
         available_copies--;
     }
 }

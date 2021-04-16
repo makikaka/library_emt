@@ -1,15 +1,12 @@
 package com.example.LibraryEmtBackend.service;
 
 import com.example.LibraryEmtBackend.model.Book;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface BookService {
     List<Book> findAll();
-
-    Optional<Book> findById(Long id);
 
     Optional<Book> save(String name,
                         Long genreId,
@@ -21,6 +18,8 @@ public interface BookService {
                         Long genreId,
                         Long authorId,
                         int availableCopies);
+
+    Optional<Book> takeBook(Long id);
 
     void deleteById(Long id);
 }

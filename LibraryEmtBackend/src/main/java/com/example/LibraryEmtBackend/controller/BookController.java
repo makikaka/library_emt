@@ -1,11 +1,8 @@
 package com.example.LibraryEmtBackend.controller;
 
 import com.example.LibraryEmtBackend.model.Book;
-import com.example.LibraryEmtBackend.service.AuthorService;
 import com.example.LibraryEmtBackend.service.BookService;
-import com.mysql.cj.x.protobuf.Mysqlx;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,11 +12,9 @@ import java.util.List;
 @RequestMapping("/api/books")
 public class BookController {
     private final BookService bookService;
-    private final AuthorService authorService;
 
-    public BookController(BookService bookService, AuthorService authorService) {
+    public BookController(BookService bookService) {
         this.bookService = bookService;
-        this.authorService = authorService;
     }
 
     @GetMapping
@@ -34,7 +29,7 @@ public class BookController {
                                      @RequestParam Long authorId,
                                      @RequestParam int availableCopies
     ) {
-        if (id != null){
+        if (id == null) {
             return this.bookService.save(name, genreId, authorId, availableCopies)
                     .map(book -> ResponseEntity.ok().body(book))
                     .orElseGet(() -> ResponseEntity.badRequest().build());
@@ -43,6 +38,12 @@ public class BookController {
                     .map(book -> ResponseEntity.ok().body(book))
                     .orElseGet(() -> ResponseEntity.badRequest().build());
         }
+    }
+
+    @PostMapping("/take-book/{id}")
+    public ResponseEntity<Book> takeBook(@PathVariable Long id) {
+        return this.bookService.takeBook(id).map(book -> ResponseEntity.ok().body(book))
+                .orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
     @DeleteMapping("/delete/{id}")

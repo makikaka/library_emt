@@ -24,10 +24,9 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> findAll() {return this.bookRepository.findAll(); }
-
-    @Override
-    public Optional<Book> findById(Long id) {return this.bookRepository.findById(id);}
+    public List<Book> findAll() {
+        return this.bookRepository.findAll();
+    }
 
     @Override
     public Optional<Book> save(String name,
@@ -39,7 +38,9 @@ public class BookServiceImpl implements BookService {
         newBook.setGenre(genreRepository.findById(genreId).get());
         newBook.setAvailable_copies(availableCopies);
         newBook.setAuthor(authorRepository.findById(authorId).get());
-        return Optional.of(this.bookRepository.save(newBook));}
+        this.bookRepository.save(newBook);
+        return Optional.of(this.bookRepository.save(newBook));
+    }
 
     @Override
     public Optional<Book> edit(Long id,
@@ -53,13 +54,16 @@ public class BookServiceImpl implements BookService {
         bookDb.setAuthor(authorRepository.findById(authorId).get());
         bookDb.setAvailable_copies(availableCopies);
         bookDb.setGenre(genreRepository.findById(id).get());
+        this.bookRepository.save(bookDb);
         return Optional.of(this.bookRepository.save(bookDb));
     }
 
+    @Override
     public Optional<Book> takeBook(Long id) {
         Book bookDb = this.bookRepository.findById(id)
                 .orElseThrow(() -> new BookNotFoundException(id));
         bookDb.takeBook();
+        this.bookRepository.save(bookDb);
         return Optional.of(this.bookRepository.save(bookDb));
     }
 
