@@ -2,6 +2,7 @@ package com.example.LibraryEmtBackend.controller;
 
 import com.example.LibraryEmtBackend.model.Book;
 import com.example.LibraryEmtBackend.service.BookService;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,9 +18,14 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @GetMapping
+    @GetMapping("/")
     public List<Book> GetAllBooks() {
         return bookService.findAll();
+    }
+
+    @GetMapping
+    public List<Book> findAllWithPagination(Pageable pageable) {
+        return this.bookService.findAllWithPagination(pageable).getContent();
     }
 
     @PostMapping("/add")

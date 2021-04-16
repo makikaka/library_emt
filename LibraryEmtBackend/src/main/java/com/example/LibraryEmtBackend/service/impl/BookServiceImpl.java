@@ -6,6 +6,8 @@ import com.example.LibraryEmtBackend.repository.AuthorRepository;
 import com.example.LibraryEmtBackend.repository.BookRepository;
 import com.example.LibraryEmtBackend.repository.GenreRepository;
 import com.example.LibraryEmtBackend.service.BookService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +23,11 @@ public class BookServiceImpl implements BookService {
         this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
         this.genreRepository = genreRepository;
+    }
+
+    @Override
+    public Page<Book> findAllWithPagination(Pageable pageable) {
+        return this.bookRepository.findAll(pageable);
     }
 
     @Override
