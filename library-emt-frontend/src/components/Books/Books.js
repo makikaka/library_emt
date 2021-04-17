@@ -17,17 +17,16 @@ const Books = () => {
     const [numBooks, setNumBooks] = useState(11);
 
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(2);
+    const [rowsPerPage, setRowsPerPage] = React.useState(0);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
-        handleChangePagination(rowsPerPage, page);
+        handleChangePagination(newPage, page);
     };
 
     const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-        handleChangePagination(rowsPerPage, page);
+        setRowsPerPage(event.target.value);
+        handleChangePagination(event.target.value, page);
     };
 
     const handleChangePagination = (numRows, pageNum) => {
@@ -39,17 +38,16 @@ const Books = () => {
 
     const deleteBook = (id) => {
         LibraryService.removeBook(id);
-        handleChangePagination(rowsPerPage, page)
+        handleChangePagination(rowsPerPage, page);
     };
 
     const takeBook = (id) => {
-      LibraryService.takeBook(id);
-      handleChangePagination(rowsPerPage, page)
-  };
-
-    useEffect(() => {
-        handleChangePagination(rowsPerPage, page);
-    });
+        LibraryService.takeBook(id);
+        const changedBooks = [...books];
+        const bookToChange = changedBooks.find(x => x.id === id);
+        bookToChange.available_copies = bookToChange.available_copies - 1;
+        setBooks(changedBooks);
+    };
 
     const booksInTable = (
         <TableContainer component={Paper}>
@@ -83,9 +81,15 @@ const Books = () => {
                                 >
                                     Delete
                                 </Button>
-                                <Button color="primary" variant="outlined" onClick={() => {
+                                <Button
+                                    color="primary"
+                                    variant="outlined"
+                                    onClick={() => {
                                         takeBook(book?.id);
-                                    }}>Take book</Button>
+                                    }}
+                                >
+                                    Take book
+                                </Button>
                             </TableCell>
                         </TableRow>
                     ))}
@@ -93,7 +97,7 @@ const Books = () => {
                 <TableFooter>
                     <TableRow>
                         <TablePagination
-                            rowsPerPageOptions={[2, 4, 8, 16, { label: "All", value: -1 }]}
+                            rowsPerPageOptions={[0, 2, 4, 8, 16, { label: "All", value: -1 }]}
                             colSpan={3}
                             count={numBooks}
                             rowsPerPage={rowsPerPage}
