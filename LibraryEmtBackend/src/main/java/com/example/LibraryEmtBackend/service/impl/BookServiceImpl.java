@@ -27,7 +27,6 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Page<Book> findAllWithPagination(Pageable pageable) {
-        long numberOfBooks = this.bookRepository.count();
         return this.bookRepository.findAll(pageable);
     }
 

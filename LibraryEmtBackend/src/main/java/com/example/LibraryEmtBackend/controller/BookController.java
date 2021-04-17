@@ -1,7 +1,9 @@
 package com.example.LibraryEmtBackend.controller;
 
 import com.example.LibraryEmtBackend.model.Book;
+import com.example.LibraryEmtBackend.model.dto.BookPagesAndCount;
 import com.example.LibraryEmtBackend.service.BookService;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +26,9 @@ public class BookController {
     }
 
     @GetMapping
-    public List<Book> findAllWithPagination(Pageable pageable) {
-        return this.bookService.findAllWithPagination(pageable).getContent();
+    public BookPagesAndCount findAllWithPagination(Pageable pageable) {
+        Page pagination = this.bookService.findAllWithPagination(pageable);
+        return new BookPagesAndCount(pagination.getContent(), pagination.getTotalElements());
     }
 
     @PostMapping("/add")
