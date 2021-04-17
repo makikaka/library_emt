@@ -1,6 +1,6 @@
 package com.example.LibraryEmtBackend.controller;
 
-import com.example.LibraryEmtBackend.model.Category;
+import com.example.LibraryEmtBackend.model.Genre;
 import com.example.LibraryEmtBackend.service.CategoryService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +20,7 @@ public class CategoryController {
     }
 
     @GetMapping
-    public List<Category> GetAllCategories() {
+    public List<Genre> GetAllCategories() {
         return categoryService.findAll();
     }
 }
